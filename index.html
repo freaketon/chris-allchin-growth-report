@@ -1,0 +1,2522 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Outlier — Chris Allchin Growth Report</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --teal: #4DD9E0;
+  --cyan: #38C9D4;
+  --purple-light: #9B6FD4;
+  --purple-mid: #7B4FC0;
+  --purple-dark: #1E1B5E;
+  --magenta: #E040A0;
+  --orange: #F07830;
+  --yellow: #F5C842;
+  --bg: #F4EFF8;
+  --bg-card: #FFFFFF;
+  --text-dark: #1A1A2E;
+  --text-mid: #3D3D6B;
+  --text-light: #7070A0;
+  --nav-h: 68px;
+  --sidebar-w: 320px;
+  --grad-main: linear-gradient(135deg, #4DD9E0 0%, #9B6FD4 45%, #E040A0 80%, #F07830 100%);
+  --grad-dark: linear-gradient(135deg, #1E1B5E 0%, #3D3D8B 100%);
+  --glass: rgba(255,255,255,0.6);
+  --glass-border: rgba(255,255,255,0.8);
+  --shadow-sm: 0 2px 12px rgba(123,79,192,0.1);
+  --shadow-md: 0 6px 28px rgba(123,79,192,0.15);
+  --shadow-lg: 0 16px 48px rgba(123,79,192,0.2);
+  --radius: 16px;
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Inter', sans-serif;
+  background: var(--bg);
+  color: var(--text-dark);
+  overflow-x: hidden;
+}
+
+/* ─── SCROLLBAR ─── */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: linear-gradient(180deg, #4DD9E0, #9B6FD4); border-radius: 3px; }
+
+/* ─── NAV ─── */
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  height: var(--nav-h);
+  background: rgba(255,255,255,0.88);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(155,111,212,0.12);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  padding: 0 32px;
+  gap: 0;
+}
+
+.nav-logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+  flex-shrink: 0;
+}
+
+.nav-logo img { height: 28px; }
+
+.nav-divider {
+  width: 1px; height: 28px;
+  background: rgba(155,111,212,0.2);
+  margin: 0 20px;
+  flex-shrink: 0;
+}
+
+.nav-client {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-mid);
+  flex-shrink: 0;
+}
+
+.nav-client span {
+  background: var(--grad-main);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-left: auto;
+  list-style: none;
+}
+
+.nav-links a {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  border-radius: 10px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-mid);
+  text-decoration: none;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+
+.nav-links a:hover {
+  background: rgba(155,111,212,0.08);
+  color: var(--purple-mid);
+}
+
+.nav-links a.active {
+  background: rgba(155,111,212,0.1);
+  color: var(--purple-mid);
+}
+
+.nav-links a .nav-icon { font-size: 14px; }
+
+.nav-cta {
+  margin-left: 12px;
+  padding: 9px 20px !important;
+  background: var(--grad-main) !important;
+  color: white !important;
+  border-radius: 12px !important;
+  box-shadow: 0 4px 16px rgba(155,111,212,0.35) !important;
+}
+
+.nav-cta:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(155,111,212,0.45) !important;
+}
+
+/* ─── LAYOUT ─── */
+.layout {
+  display: flex;
+  margin-top: var(--nav-h);
+  min-height: calc(100vh - var(--nav-h));
+}
+
+/* ─── MAIN CONTENT ─── */
+.main {
+  flex: 1;
+  min-width: 0;
+  padding: 0;
+}
+
+/* ─── SIDEBAR ─── */
+.sidebar {
+  width: var(--sidebar-w);
+  flex-shrink: 0;
+  padding: 28px 20px 28px 0;
+  position: sticky;
+  top: var(--nav-h);
+  height: calc(100vh - var(--nav-h));
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* ─── HERO ─── */
+.hero {
+  position: relative;
+  overflow: hidden;
+  padding: 72px 56px 64px;
+  background: linear-gradient(135deg, #F0EBF8 0%, #E8F4F8 40%, #F5EEF5 70%, #FDF0E8 100%);
+  border-bottom: 1px solid rgba(155,111,212,0.1);
+}
+
+.hero-bg-orb-1 {
+  position: absolute;
+  top: -80px; right: -80px;
+  width: 400px; height: 400px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(77,217,224,0.25), rgba(155,111,212,0.2), transparent 70%);
+  filter: blur(40px);
+  pointer-events: none;
+}
+
+.hero-bg-orb-2 {
+  position: absolute;
+  bottom: -60px; left: -60px;
+  width: 300px; height: 300px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(245,200,66,0.2), rgba(240,120,48,0.15), transparent 70%);
+  filter: blur(40px);
+  pointer-events: none;
+}
+
+.hero-network {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  opacity: 0.06;
+  pointer-events: none;
+}
+
+.hero-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255,255,255,0.7);
+  border: 1px solid rgba(155,111,212,0.2);
+  border-radius: 30px;
+  padding: 6px 16px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--purple-mid);
+  margin-bottom: 20px;
+}
+
+.hero-label-dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--grad-main);
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(1.3); }
+}
+
+.hero-title {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 52px;
+  font-weight: 800;
+  line-height: 1.05;
+  color: var(--purple-dark);
+  margin-bottom: 20px;
+  max-width: 700px;
+}
+
+.hero-title .grad {
+  background: var(--grad-main);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.hero-sub {
+  font-size: 17px;
+  line-height: 1.65;
+  color: var(--text-mid);
+  max-width: 580px;
+  margin-bottom: 36px;
+}
+
+.hero-stats {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.hero-stat {
+  background: var(--glass);
+  border: 1px solid var(--glass-border);
+  backdrop-filter: blur(12px);
+  border-radius: 14px;
+  padding: 16px 22px;
+  text-align: center;
+  box-shadow: var(--shadow-sm);
+}
+
+.hero-stat-num {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 28px;
+  font-weight: 800;
+  background: var(--grad-main);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  line-height: 1;
+  margin-bottom: 4px;
+}
+
+.hero-stat-label {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-light);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* ─── SECTION ─── */
+.section {
+  padding: 56px 56px 48px;
+  border-bottom: 1px solid rgba(155,111,212,0.08);
+}
+
+.section:last-child { border-bottom: none; }
+
+.section-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.section-badge-num {
+  width: 30px; height: 30px;
+  border-radius: 9px;
+  background: var(--grad-main);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 800;
+  color: white;
+}
+
+.section-badge-label {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--purple-mid);
+  opacity: 0.8;
+}
+
+.section-title {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 34px;
+  font-weight: 800;
+  color: var(--purple-dark);
+  line-height: 1.15;
+  margin-bottom: 10px;
+}
+
+.section-title .grad {
+  background: var(--grad-main);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.section-underline {
+  width: 56px; height: 3px;
+  background: linear-gradient(90deg, #4DD9E0, #E040A0);
+  border-radius: 2px;
+  margin-bottom: 28px;
+}
+
+p { font-size: 14px; line-height: 1.75; color: var(--text-mid); margin-bottom: 16px; }
+p:last-child { margin-bottom: 0; }
+strong { color: var(--text-dark); font-weight: 700; }
+
+/* ─── CARDS ─── */
+.card {
+  background: var(--bg-card);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-sm);
+  border: 1px solid rgba(255,255,255,0.9);
+  overflow: hidden;
+}
+
+.card-glass {
+  background: var(--glass);
+  border: 1px solid var(--glass-border);
+  backdrop-filter: blur(12px);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-sm);
+}
+
+/* ─── STAT ROW ─── */
+.stat-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+  margin-bottom: 28px;
+}
+
+.stat-card {
+  background: var(--bg-card);
+  border-radius: 14px;
+  padding: 20px 16px;
+  text-align: center;
+  box-shadow: var(--shadow-sm);
+  border: 1px solid rgba(255,255,255,0.9);
+  position: relative;
+  overflow: hidden;
+}
+
+.stat-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+}
+
+.stat-card.c1::before { background: linear-gradient(90deg, #4DD9E0, #38C9D4); }
+.stat-card.c2::before { background: linear-gradient(90deg, #9B6FD4, #7B4FC0); }
+.stat-card.c3::before { background: linear-gradient(90deg, #E040A0, #C030A0); }
+.stat-card.c4::before { background: linear-gradient(90deg, #F07830, #F5C842); }
+
+.stat-num {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 30px;
+  font-weight: 800;
+  line-height: 1;
+  margin-bottom: 6px;
+}
+
+.stat-card.c1 .stat-num { color: #38C9D4; }
+.stat-card.c2 .stat-num { color: #7B4FC0; }
+.stat-card.c3 .stat-num { color: #E040A0; }
+.stat-card.c4 .stat-num { color: #F07830; }
+
+.stat-label {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-light);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  line-height: 1.3;
+}
+
+/* ─── PILLAR GRID ─── */
+.pillar-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  margin-bottom: 24px;
+}
+
+.pillar-card {
+  background: var(--bg-card);
+  border-radius: 14px;
+  padding: 20px;
+  box-shadow: var(--shadow-sm);
+  border: 1px solid rgba(255,255,255,0.9);
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.pillar-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.pillar-icon {
+  width: 42px; height: 42px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  flex-shrink: 0;
+}
+
+.pi-teal { background: linear-gradient(135deg, rgba(77,217,224,0.18), rgba(77,217,224,0.06)); }
+.pi-purple { background: linear-gradient(135deg, rgba(155,111,212,0.18), rgba(155,111,212,0.06)); }
+.pi-magenta { background: linear-gradient(135deg, rgba(224,64,160,0.18), rgba(224,64,160,0.06)); }
+.pi-orange { background: linear-gradient(135deg, rgba(240,120,48,0.18), rgba(240,120,48,0.06)); }
+
+.pillar-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text-dark);
+  margin-bottom: 5px;
+}
+
+.pillar-desc {
+  font-size: 12.5px;
+  line-height: 1.55;
+  color: var(--text-mid);
+  margin: 0;
+}
+
+/* ─── HIGHLIGHT BOX ─── */
+.highlight {
+  background: linear-gradient(135deg, rgba(77,217,224,0.08), rgba(155,111,212,0.08));
+  border-left: 4px solid;
+  border-image: linear-gradient(180deg, #4DD9E0, #9B6FD4) 1;
+  border-radius: 0 12px 12px 0;
+  padding: 18px 22px;
+  margin: 20px 0;
+  font-size: 14px;
+  font-style: italic;
+  font-weight: 500;
+  color: var(--text-dark);
+  line-height: 1.7;
+}
+
+/* ─── ICP GRID ─── */
+.icp-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.icp-card {
+  background: var(--bg-card);
+  border-radius: var(--radius);
+  padding: 24px;
+  box-shadow: var(--shadow-sm);
+  border: 1px solid rgba(255,255,255,0.9);
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.icp-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); }
+
+.icp-card::after {
+  content: '';
+  position: absolute;
+  bottom: -20px; right: -20px;
+  width: 100px; height: 100px;
+  border-radius: 50%;
+  opacity: 0.06;
+}
+
+.icp-primary::after { background: #4DD9E0; }
+.icp-secondary::after { background: #9B6FD4; }
+
+.icp-badge {
+  display: inline-block;
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  padding: 4px 12px;
+  border-radius: 20px;
+  margin-bottom: 12px;
+}
+
+.icp-primary .icp-badge { background: rgba(77,217,224,0.15); color: #38C9D4; }
+.icp-secondary .icp-badge { background: rgba(155,111,212,0.15); color: #7B4FC0; }
+
+.icp-title { font-size: 16px; font-weight: 800; color: var(--text-dark); margin-bottom: 8px; }
+
+.icp-desc { font-size: 13px; line-height: 1.6; color: var(--text-mid); margin: 0 0 12px; }
+
+.icp-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+
+.icp-tag {
+  font-size: 10.5px;
+  font-weight: 600;
+  padding: 3px 10px;
+  border-radius: 20px;
+  background: rgba(155,111,212,0.08);
+  color: var(--purple-mid);
+}
+
+/* ─── TABLE ─── */
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  margin-bottom: 24px;
+}
+
+.data-table thead tr { background: var(--grad-dark); }
+
+.data-table thead th {
+  padding: 13px 16px;
+  text-align: left;
+  font-size: 11px;
+  font-weight: 700;
+  color: rgba(255,255,255,0.9);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.data-table tbody tr {
+  background: var(--bg-card);
+  border-bottom: 1px solid rgba(155,111,212,0.07);
+  transition: background 0.15s;
+}
+
+.data-table tbody tr:hover { background: rgba(155,111,212,0.03); }
+.data-table tbody tr:last-child { border-bottom: none; }
+
+.data-table tbody td {
+  padding: 13px 16px;
+  font-size: 13px;
+  color: var(--text-mid);
+  vertical-align: top;
+}
+
+.data-table tbody td:first-child { font-weight: 700; color: var(--text-dark); }
+
+.badge {
+  display: inline-block;
+  font-size: 10px;
+  font-weight: 700;
+  padding: 3px 10px;
+  border-radius: 20px;
+}
+
+.badge-fire { background: rgba(77,217,224,0.15); color: #38C9D4; }
+.badge-grow { background: rgba(155,111,212,0.15); color: #7B4FC0; }
+.badge-warn { background: rgba(245,200,66,0.2); color: #C09000; }
+.badge-low { background: rgba(240,120,48,0.12); color: #E06020; }
+
+/* ─── OPPORTUNITY BANNER ─── */
+.opp-banner {
+  background: var(--grad-dark);
+  border-radius: 20px;
+  padding: 32px 36px;
+  margin-bottom: 24px;
+  position: relative;
+  overflow: hidden;
+}
+
+.opp-banner::before {
+  content: '';
+  position: absolute;
+  top: -50px; right: -50px;
+  width: 250px; height: 250px;
+  background: radial-gradient(circle, rgba(77,217,224,0.2), transparent 70%);
+  border-radius: 50%;
+}
+
+.opp-banner::after {
+  content: '';
+  position: absolute;
+  bottom: -40px; left: -40px;
+  width: 180px; height: 180px;
+  background: radial-gradient(circle, rgba(240,120,48,0.2), transparent 70%);
+  border-radius: 50%;
+}
+
+.opp-banner-tag {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #4DD9E0;
+  margin-bottom: 10px;
+  position: relative;
+  z-index: 1;
+}
+
+.opp-banner-title {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 28px;
+  font-weight: 800;
+  color: white;
+  line-height: 1.2;
+  margin-bottom: 12px;
+  position: relative;
+  z-index: 1;
+}
+
+.opp-banner-title .grad-light {
+  background: linear-gradient(135deg, #4DD9E0, #F5C842);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.opp-banner-desc {
+  font-size: 14px;
+  line-height: 1.65;
+  color: rgba(255,255,255,0.78);
+  position: relative;
+  z-index: 1;
+  margin-bottom: 24px;
+}
+
+.opp-stats {
+  display: flex;
+  gap: 0;
+  position: relative;
+  z-index: 1;
+}
+
+.opp-stat {
+  flex: 1;
+  text-align: center;
+  padding: 0 16px;
+  border-right: 1px solid rgba(255,255,255,0.1);
+}
+
+.opp-stat:last-child { border-right: none; }
+
+.opp-stat-num {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 28px;
+  font-weight: 800;
+  background: linear-gradient(135deg, #4DD9E0, #F5C842);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  line-height: 1;
+  margin-bottom: 4px;
+}
+
+.opp-stat-label {
+  font-size: 10px;
+  font-weight: 600;
+  color: rgba(255,255,255,0.55);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* ─── WHY VIRAL GRID ─── */
+.why-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.why-card {
+  background: var(--bg-card);
+  border-radius: 14px;
+  padding: 20px;
+  box-shadow: var(--shadow-sm);
+  border: 1px solid rgba(255,255,255,0.9);
+  transition: transform 0.2s;
+}
+
+.why-card:hover { transform: translateY(-2px); }
+
+.why-icon { font-size: 24px; margin-bottom: 10px; }
+.why-title { font-size: 14px; font-weight: 700; color: var(--text-dark); margin-bottom: 6px; }
+.why-desc { font-size: 12.5px; line-height: 1.55; color: var(--text-mid); margin: 0; }
+
+/* ─── FORMULA BOX ─── */
+.formula-box {
+  background: linear-gradient(135deg, rgba(30,27,94,0.05), rgba(77,217,224,0.05));
+  border: 1px solid rgba(77,217,224,0.2);
+  border-radius: 14px;
+  padding: 22px 28px;
+  margin-bottom: 24px;
+  text-align: center;
+}
+
+.formula-label {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--purple-mid);
+  margin-bottom: 14px;
+  opacity: 0.8;
+}
+
+.formula-steps {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.formula-step {
+  background: var(--bg-card);
+  border-radius: 10px;
+  padding: 11px 18px;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text-dark);
+  box-shadow: var(--shadow-sm);
+}
+
+.formula-arrow { font-size: 20px; color: var(--purple-light); }
+
+/* ─── ROADMAP ─── */
+.roadmap-phase {
+  background: var(--bg-card);
+  border-radius: var(--radius);
+  padding: 24px 26px;
+  margin-bottom: 16px;
+  box-shadow: var(--shadow-sm);
+  border: 1px solid rgba(255,255,255,0.9);
+  display: flex;
+  gap: 22px;
+  align-items: flex-start;
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.roadmap-phase:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); }
+
+.roadmap-phase::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 4px;
+}
+
+.rp1::before { background: linear-gradient(180deg, #4DD9E0, #38C9D4); }
+.rp2::before { background: linear-gradient(180deg, #9B6FD4, #7B4FC0); }
+.rp3::before { background: linear-gradient(180deg, #E040A0, #F07830); }
+
+.rp-left { flex-shrink: 0; text-align: center; width: 80px; }
+
+.rp-icon {
+  width: 52px; height: 52px;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  margin: 0 auto 8px;
+}
+
+.rp1 .rp-icon { background: linear-gradient(135deg, rgba(77,217,224,0.15), rgba(77,217,224,0.05)); }
+.rp2 .rp-icon { background: linear-gradient(135deg, rgba(155,111,212,0.15), rgba(155,111,212,0.05)); }
+.rp3 .rp-icon { background: linear-gradient(135deg, rgba(224,64,160,0.15), rgba(224,64,160,0.05)); }
+
+.rp-range { font-size: 11px; font-weight: 700; color: var(--text-light); text-transform: uppercase; letter-spacing: 0.5px; }
+
+.rp-right { flex: 1; }
+
+.rp-title { font-family: 'Space Grotesk', sans-serif; font-size: 18px; font-weight: 800; color: var(--text-dark); margin-bottom: 8px; }
+
+.rp-desc { font-size: 13px; line-height: 1.65; color: var(--text-mid); margin-bottom: 12px; }
+
+.rp-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+
+.rp-tag {
+  font-size: 11px;
+  font-weight: 600;
+  padding: 4px 12px;
+  border-radius: 20px;
+}
+
+.rp1 .rp-tag { background: rgba(77,217,224,0.12); color: #38C9D4; }
+.rp2 .rp-tag { background: rgba(155,111,212,0.12); color: #7B4FC0; }
+.rp3 .rp-tag { background: rgba(224,64,160,0.12); color: #E040A0; }
+
+/* ─── SUBSECTION TITLE ─── */
+.sub-title {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 19px;
+  font-weight: 700;
+  color: var(--purple-dark);
+  margin: 28px 0 14px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.sub-title::before {
+  content: '';
+  display: inline-block;
+  width: 4px; height: 20px;
+  background: linear-gradient(180deg, #4DD9E0, #9B6FD4);
+  border-radius: 2px;
+  flex-shrink: 0;
+}
+
+/* ─── HOOK CREATOR ─── */
+#hook-creator {
+  background: linear-gradient(135deg, #F0EBF8 0%, #E8F4F8 100%);
+}
+
+.hook-creator-inner {
+  max-width: 100%;
+}
+
+.hook-tabs {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 24px;
+}
+
+.hook-tab {
+  padding: 9px 18px;
+  border-radius: 30px;
+  font-size: 12.5px;
+  font-weight: 700;
+  cursor: pointer;
+  border: 2px solid transparent;
+  transition: all 0.2s;
+  background: var(--bg-card);
+  color: var(--text-mid);
+  box-shadow: var(--shadow-sm);
+}
+
+.hook-tab:hover { border-color: rgba(155,111,212,0.3); color: var(--purple-mid); }
+
+.hook-tab.active {
+  background: var(--grad-main);
+  color: white;
+  border-color: transparent;
+  box-shadow: 0 4px 16px rgba(155,111,212,0.35);
+}
+
+.hook-panel { display: none; }
+.hook-panel.active { display: block; }
+
+.hook-intro {
+  background: var(--bg-card);
+  border-radius: 14px;
+  padding: 18px 22px;
+  margin-bottom: 20px;
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+}
+
+.hook-intro-icon {
+  width: 40px; height: 40px;
+  border-radius: 10px;
+  background: var(--grad-main);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  flex-shrink: 0;
+}
+
+.hook-intro-title { font-size: 14px; font-weight: 700; color: var(--text-dark); margin-bottom: 4px; }
+.hook-intro-desc { font-size: 12.5px; line-height: 1.55; color: var(--text-mid); margin: 0; }
+
+.hook-list { display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; }
+
+.hook-item {
+  background: var(--bg-card);
+  border-radius: 14px;
+  padding: 16px 20px;
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+  box-shadow: var(--shadow-sm);
+  border: 1px solid rgba(255,255,255,0.9);
+  transition: all 0.2s;
+  cursor: pointer;
+  position: relative;
+}
+
+.hook-item:hover {
+  border-color: rgba(155,111,212,0.25);
+  box-shadow: var(--shadow-md);
+  transform: translateX(3px);
+}
+
+.hook-item.copied {
+  border-color: rgba(77,217,224,0.5);
+  background: rgba(77,217,224,0.04);
+}
+
+.hook-num {
+  width: 28px; height: 28px;
+  border-radius: 8px;
+  background: var(--grad-main);
+  color: white;
+  font-size: 11px;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.hook-text {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-dark);
+  line-height: 1.55;
+  font-style: italic;
+  flex: 1;
+}
+
+.hook-copy-btn {
+  flex-shrink: 0;
+  background: rgba(155,111,212,0.08);
+  border: none;
+  border-radius: 8px;
+  padding: 6px 12px;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--purple-mid);
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+
+.hook-copy-btn:hover { background: rgba(155,111,212,0.15); }
+
+.hook-copy-btn.copied-btn {
+  background: rgba(77,217,224,0.15);
+  color: #38C9D4;
+}
+
+.hook-why {
+  margin-top: 8px;
+  font-size: 11.5px;
+  color: var(--text-light);
+  font-style: normal;
+  font-weight: 500;
+  padding-left: 42px;
+  display: none;
+}
+
+.hook-item:hover .hook-why { display: block; }
+
+/* Hook generator input */
+.hook-generator {
+  background: var(--bg-card);
+  border-radius: var(--radius);
+  padding: 24px;
+  box-shadow: var(--shadow-md);
+  border: 1px solid rgba(155,111,212,0.1);
+  margin-bottom: 20px;
+}
+
+.hook-gen-title {
+  font-size: 16px;
+  font-weight: 800;
+  color: var(--text-dark);
+  margin-bottom: 6px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.hook-gen-desc {
+  font-size: 13px;
+  color: var(--text-light);
+  margin-bottom: 16px;
+}
+
+.hook-gen-row {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.hook-gen-select {
+  flex: 1;
+  min-width: 160px;
+  padding: 11px 16px;
+  border-radius: 10px;
+  border: 1.5px solid rgba(155,111,212,0.2);
+  background: var(--bg);
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-dark);
+  cursor: pointer;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%239B6FD4' stroke-width='2' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 14px center;
+  padding-right: 36px;
+  transition: border-color 0.2s;
+}
+
+.hook-gen-select:focus { outline: none; border-color: var(--purple-mid); }
+
+.hook-gen-btn {
+  padding: 11px 24px;
+  border-radius: 10px;
+  border: none;
+  background: var(--grad-main);
+  color: white;
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 4px 16px rgba(155,111,212,0.3);
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+
+.hook-gen-btn:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(155,111,212,0.4); }
+.hook-gen-btn:active { transform: translateY(0); }
+
+.hook-output {
+  margin-top: 16px;
+  padding: 16px 20px;
+  background: linear-gradient(135deg, rgba(77,217,224,0.06), rgba(155,111,212,0.06));
+  border: 1.5px solid rgba(77,217,224,0.25);
+  border-radius: 12px;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text-dark);
+  font-style: italic;
+  line-height: 1.6;
+  display: none;
+  position: relative;
+}
+
+.hook-output.visible { display: block; animation: fadeSlideIn 0.3s ease; }
+
+@keyframes fadeSlideIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.hook-output-copy {
+  position: absolute;
+  top: 10px; right: 12px;
+  background: rgba(155,111,212,0.1);
+  border: none;
+  border-radius: 6px;
+  padding: 4px 10px;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--purple-mid);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.hook-output-copy:hover { background: rgba(155,111,212,0.2); }
+
+/* ─── SIDEBAR CARDS ─── */
+.sidebar-card {
+  background: var(--bg-card);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-sm);
+  border: 1px solid rgba(255,255,255,0.9);
+  overflow: hidden;
+}
+
+.sidebar-card-header {
+  padding: 16px 18px 12px;
+  border-bottom: 1px solid rgba(155,111,212,0.08);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.sidebar-card-icon {
+  width: 32px; height: 32px;
+  border-radius: 9px;
+  background: var(--grad-main);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  flex-shrink: 0;
+}
+
+.sidebar-card-title {
+  font-size: 13px;
+  font-weight: 800;
+  color: var(--text-dark);
+}
+
+.sidebar-card-sub {
+  font-size: 11px;
+  color: var(--text-light);
+  font-weight: 500;
+}
+
+.sidebar-card-body { padding: 14px 18px; }
+
+/* Trend items */
+.trend-item {
+  padding: 12px 0;
+  border-bottom: 1px solid rgba(155,111,212,0.07);
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+}
+
+.trend-item:last-child { border-bottom: none; padding-bottom: 0; }
+
+.trend-rank {
+  width: 22px; height: 22px;
+  border-radius: 6px;
+  font-size: 10px;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.tr-fire { background: rgba(77,217,224,0.15); color: #38C9D4; }
+.tr-up { background: rgba(155,111,212,0.15); color: #7B4FC0; }
+.tr-new { background: rgba(224,64,160,0.15); color: #E040A0; }
+.tr-hot { background: rgba(240,120,48,0.15); color: #F07830; }
+
+.trend-content {}
+
+.trend-name {
+  font-size: 12.5px;
+  font-weight: 700;
+  color: var(--text-dark);
+  margin-bottom: 3px;
+  line-height: 1.3;
+}
+
+.trend-detail {
+  font-size: 11px;
+  line-height: 1.5;
+  color: var(--text-light);
+}
+
+.trend-heat {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-top: 4px;
+}
+
+.trend-heat-bar {
+  height: 3px;
+  border-radius: 2px;
+  background: var(--grad-main);
+}
+
+.trend-heat-label {
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--text-light);
+}
+
+/* Quick nav sidebar */
+.quick-nav { display: flex; flex-direction: column; gap: 2px; }
+
+.quick-nav-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 14px;
+  border-radius: 10px;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--text-mid);
+  text-decoration: none;
+  transition: all 0.2s;
+  cursor: pointer;
+}
+
+.quick-nav-item:hover {
+  background: rgba(155,111,212,0.08);
+  color: var(--purple-mid);
+}
+
+.quick-nav-item.active {
+  background: rgba(155,111,212,0.1);
+  color: var(--purple-mid);
+}
+
+.quick-nav-dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: rgba(155,111,212,0.3);
+  flex-shrink: 0;
+  transition: background 0.2s;
+}
+
+.quick-nav-item.active .quick-nav-dot,
+.quick-nav-item:hover .quick-nav-dot {
+  background: var(--purple-mid);
+}
+
+/* Trend alert */
+.trend-alert {
+  background: linear-gradient(135deg, rgba(245,200,66,0.1), rgba(240,120,48,0.1));
+  border: 1px solid rgba(240,120,48,0.2);
+  border-radius: 12px;
+  padding: 14px 16px;
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  margin-bottom: 12px;
+}
+
+.trend-alert-icon { font-size: 18px; flex-shrink: 0; margin-top: 1px; }
+.trend-alert-title { font-size: 12.5px; font-weight: 700; color: var(--text-dark); margin-bottom: 4px; }
+.trend-alert-desc { font-size: 11.5px; line-height: 1.5; color: var(--text-mid); margin: 0; }
+
+/* Content ideas */
+.content-idea {
+  background: var(--bg-card);
+  border-radius: 12px;
+  padding: 14px 18px;
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  box-shadow: var(--shadow-sm);
+  margin-bottom: 10px;
+  border: 1px solid rgba(255,255,255,0.9);
+  transition: transform 0.2s;
+}
+
+.content-idea:hover { transform: translateX(3px); }
+
+.ci-type {
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  padding: 4px 10px;
+  border-radius: 20px;
+  white-space: nowrap;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.ci-reel { background: rgba(77,217,224,0.15); color: #38C9D4; }
+.ci-carousel { background: rgba(155,111,212,0.15); color: #7B4FC0; }
+.ci-series { background: rgba(224,64,160,0.15); color: #E040A0; }
+
+.ci-text { font-size: 13px; font-weight: 600; color: var(--text-dark); line-height: 1.5; margin: 0; }
+
+/* ─── FOOTER ─── */
+footer {
+  background: var(--purple-dark);
+  padding: 40px 56px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.footer-logo { display: flex; align-items: center; gap: 10px; }
+.footer-logo img { height: 24px; filter: brightness(0) invert(1); opacity: 0.9; }
+.footer-text { font-size: 12px; color: rgba(255,255,255,0.5); }
+
+/* ─── TOAST ─── */
+.toast {
+  position: fixed;
+  bottom: 28px;
+  left: 50%;
+  transform: translateX(-50%) translateY(80px);
+  background: var(--purple-dark);
+  color: white;
+  padding: 12px 24px;
+  border-radius: 30px;
+  font-size: 13px;
+  font-weight: 600;
+  box-shadow: var(--shadow-lg);
+  z-index: 9999;
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  pointer-events: none;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.toast.show { transform: translateX(-50%) translateY(0); }
+
+/* ─── RESPONSIVE ─── */
+@media (max-width: 1200px) {
+  .sidebar { display: none; }
+  .stat-row { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 768px) {
+  .hero { padding: 48px 28px 40px; }
+  .hero-title { font-size: 36px; }
+  .section { padding: 40px 28px 32px; }
+  .pillar-grid, .icp-grid, .why-grid { grid-template-columns: 1fr; }
+  nav { padding: 0 20px; }
+  .nav-links { display: none; }
+  footer { padding: 28px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ─── TOAST ─── -->
+<div class="toast" id="toast">✓ Copied to clipboard!</div>
+
+<!-- ─── NAV ─── -->
+<nav>
+  <a href="#hero" class="nav-logo">
+    <img src="iconsymbolbig.png" alt="Outlier">
+  </a>
+  <div class="nav-divider"></div>
+  <span class="nav-client">@chris.allchin — <span>Growth Report</span></span>
+  <ul class="nav-links">
+    <li><a href="#summary" class="nav-link"><span class="nav-icon">📋</span> Summary</a></li>
+    <li><a href="#audience" class="nav-link"><span class="nav-icon">👥</span> Audience</a></li>
+    <li><a href="#opportunity" class="nav-link"><span class="nav-icon">🌊</span> Opportunity</a></li>
+    <li><a href="#content" class="nav-link"><span class="nav-icon">🎬</span> Content</a></li>
+    <li><a href="#roadmap" class="nav-link"><span class="nav-icon">🗺️</span> Roadmap</a></li>
+    <li><a href="#hook-creator" class="nav-link"><span class="nav-icon">🎣</span> Hook Creator</a></li>
+    <li><a href="#hook-creator" class="nav-cta nav-link">🔥 Hook Creator</a></li>
+  </ul>
+</nav>
+
+<!-- ─── LAYOUT ─── -->
+<div class="layout">
+
+  <!-- ─── MAIN CONTENT ─── -->
+  <div class="main">
+
+    <!-- HERO -->
+    <section class="hero" id="hero">
+      <div class="hero-bg-orb-1"></div>
+      <div class="hero-bg-orb-2"></div>
+      <svg class="hero-network" viewBox="0 0 900 400" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="80" cy="80" r="5" fill="#9B6FD4"/><circle cx="220" cy="40" r="4" fill="#4DD9E0"/>
+        <circle cx="400" cy="100" r="5" fill="#E040A0"/><circle cx="160" cy="200" r="4" fill="#F07830"/>
+        <circle cx="350" cy="220" r="5" fill="#4DD9E0"/><circle cx="60" cy="280" r="3" fill="#9B6FD4"/>
+        <circle cx="500" cy="160" r="4" fill="#F5C842"/><circle cx="600" cy="80" r="5" fill="#4DD9E0"/>
+        <circle cx="750" cy="140" r="4" fill="#9B6FD4"/><circle cx="820" cy="60" r="3" fill="#E040A0"/>
+        <line x1="80" y1="80" x2="220" y2="40" stroke="#9B6FD4" stroke-width="1" stroke-dasharray="4,6"/>
+        <line x1="220" y1="40" x2="400" y2="100" stroke="#4DD9E0" stroke-width="1" stroke-dasharray="4,6"/>
+        <line x1="80" y1="80" x2="160" y2="200" stroke="#E040A0" stroke-width="1" stroke-dasharray="4,6"/>
+        <line x1="400" y1="100" x2="350" y2="220" stroke="#F07830" stroke-width="1" stroke-dasharray="4,6"/>
+        <line x1="160" y1="200" x2="350" y2="220" stroke="#4DD9E0" stroke-width="1" stroke-dasharray="4,6"/>
+        <line x1="400" y1="100" x2="500" y2="160" stroke="#9B6FD4" stroke-width="1" stroke-dasharray="4,6"/>
+        <line x1="500" y1="160" x2="600" y2="80" stroke="#4DD9E0" stroke-width="1" stroke-dasharray="4,6"/>
+        <line x1="600" y1="80" x2="750" y2="140" stroke="#F5C842" stroke-width="1" stroke-dasharray="4,6"/>
+        <line x1="750" y1="140" x2="820" y2="60" stroke="#9B6FD4" stroke-width="1" stroke-dasharray="4,6"/>
+      </svg>
+
+      <div class="hero-label">
+        <div class="hero-label-dot"></div>
+        Outlier Real Time Virality Radar — March 2026
+      </div>
+
+      <h1 class="hero-title">
+        The Roadmap to<br><span class="grad">1 Million Followers</span>
+      </h1>
+
+      <p class="hero-sub">A comprehensive audience analysis, ICP deep-dive, viral opportunity mapping, content strategy, and hook creator — built specifically for <strong>@chris.allchin</strong> to dominate the business acquisition niche on Instagram.</p>
+
+      <div class="hero-stats">
+        <div class="hero-stat">
+          <div class="hero-stat-num">$5T</div>
+          <div class="hero-stat-label">Opportunity Size</div>
+        </div>
+        <div class="hero-stat">
+          <div class="hero-stat-num">6M+</div>
+          <div class="hero-stat-label">Businesses For Sale</div>
+        </div>
+        <div class="hero-stat">
+          <div class="hero-stat-num">10K</div>
+          <div class="hero-stat-label">Boomers Retiring Daily</div>
+        </div>
+        <div class="hero-stat">
+          <div class="hero-stat-num">1M</div>
+          <div class="hero-stat-label">Follower Target</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 1: EXECUTIVE SUMMARY -->
+    <section class="section" id="summary">
+      <div class="section-badge">
+        <div class="section-badge-num">01</div>
+        <span class="section-badge-label">Overview</span>
+      </div>
+      <h2 class="section-title">Executive <span class="grad">Summary</span></h2>
+      <div class="section-underline"></div>
+
+      <p>This report delivers a comprehensive Instagram growth strategy designed to elevate Chris Allchin's profile to <strong>1 million followers</strong> and solidify his position as the leading authority in the Entrepreneurship Through Acquisition (ETA) niche. The strategy is built on a deep analysis of his existing content, audience dynamics, and the current social media landscape.</p>
+
+      <p>The central thesis: position Chris as the defining voice of the <strong>"Great Ownership Transfer"</strong> — a multi-trillion dollar wave of baby boomer-owned businesses coming up for sale over the next decade. This narrative is authentic to his expertise and addresses a massive, underserved, highly motivated audience.</p>
+
+      <div class="stat-row">
+        <div class="stat-card c1">
+          <div class="stat-num">$5T</div>
+          <div class="stat-label">Business Value Up For Sale</div>
+        </div>
+        <div class="stat-card c2">
+          <div class="stat-num">6M+</div>
+          <div class="stat-label">SMBs Changing Hands by 2035</div>
+        </div>
+        <div class="stat-card c3">
+          <div class="stat-num">10K</div>
+          <div class="stat-label">Boomers Retiring Every Day</div>
+        </div>
+        <div class="stat-card c4">
+          <div class="stat-num">1M</div>
+          <div class="stat-label">Followers — The Target</div>
+        </div>
+      </div>
+
+      <div class="highlight">"Chris Allchin sits at the intersection of the biggest generational wealth transfer in history and a massive, underserved audience hungry for a guide. The opportunity to own this narrative on Instagram is wide open — and the window to act is now."</div>
+
+      <div class="sub-title">Four Strategic Pillars</div>
+
+      <div class="pillar-grid">
+        <div class="pillar-card">
+          <div class="pillar-icon pi-teal">🌊</div>
+          <div>
+            <div class="pillar-title">Own the "Great Ownership Transfer" Narrative</div>
+            <p class="pillar-desc">Become the definitive voice on the retiring baby boomer business sale phenomenon before any competitor claims the space.</p>
+          </div>
+        </div>
+        <div class="pillar-card">
+          <div class="pillar-icon pi-purple">📖</div>
+          <div>
+            <div class="pillar-title">Story-First, Lesson-Second Content Model</div>
+            <p class="pillar-desc">Double down on the format already proven most effective: Hook → Story → Lesson → Call to Action.</p>
+          </div>
+        </div>
+        <div class="pillar-card">
+          <div class="pillar-icon pi-magenta">🚀</div>
+          <div>
+            <div class="pillar-title">Leverage Proven Viral Frameworks</div>
+            <p class="pillar-desc">Systematically create content with high virality potential using specific hooks, trending formats, and timely topics.</p>
+          </div>
+        </div>
+        <div class="pillar-card">
+          <div class="pillar-icon pi-orange">🤝</div>
+          <div>
+            <div class="pillar-title">Authenticity &amp; Relatability at Scale</div>
+            <p class="pillar-desc">Connect on a deeper emotional level through personal stories of struggle, transformation, and hard-won success.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 2: AUDIENCE & ICP -->
+    <section class="section" id="audience">
+      <div class="section-badge">
+        <div class="section-badge-num">02</div>
+        <span class="section-badge-label">Audience Intelligence</span>
+      </div>
+      <h2 class="section-title">Audience Profile &amp; <span class="grad">Ideal Customer</span></h2>
+      <div class="section-underline"></div>
+
+      <p>Chris Allchin's audience is not a generic entrepreneurship crowd — it is a highly specific, highly motivated group of individuals actively seeking a path to business ownership. Understanding this audience with precision is the foundation of every content and growth decision.</p>
+
+      <div class="icp-grid">
+        <div class="icp-card icp-primary">
+          <div class="icp-badge">Primary ICP</div>
+          <div class="icp-title">The Aspiring Business Buyer</div>
+          <p class="icp-desc">Professionals aged 28–45 with access to capital who want to transition from employment to ownership. They are frustrated by the startup grind and actively researching the acquisition path as a faster, lower-risk route.</p>
+          <div class="icp-tags">
+            <span class="icp-tag">Ages 28–45</span>
+            <span class="icp-tag">$80K–$250K Income</span>
+            <span class="icp-tag">Capital-Ready</span>
+            <span class="icp-tag">Acquisition-Curious</span>
+            <span class="icp-tag">Corporate Escapees</span>
+          </div>
+        </div>
+        <div class="icp-card icp-secondary">
+          <div class="icp-badge">Secondary ICP</div>
+          <div class="icp-title">The Growth-Minded Entrepreneur</div>
+          <p class="icp-desc">Existing business owners looking to scale through acquisitions, bolt-on purchases, and improved operational strategies. They want advanced frameworks, deal structures, and mindset content.</p>
+          <div class="icp-tags">
+            <span class="icp-tag">Business Owners</span>
+            <span class="icp-tag">Scale-Focused</span>
+            <span class="icp-tag">Deal-Hungry</span>
+            <span class="icp-tag">Operator Mindset</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="sub-title">What This Audience Responds To</div>
+
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Content Type</th>
+            <th>Audience Response</th>
+            <th>Why It Works</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Personal failure/lesson stories</td><td><span class="badge badge-fire">🔥 Very High</span></td><td>Creates emotional connection and trust</td></tr>
+          <tr><td>Real deal breakdowns (specific examples)</td><td><span class="badge badge-fire">🔥 Very High</span></td><td>Makes acquisition feel real and achievable</td></tr>
+          <tr><td>Mindset and transformation content</td><td><span class="badge badge-fire">🔥 High</span></td><td>Aspirational and highly shareable</td></tr>
+          <tr><td>Step-by-step how-to guides</td><td><span class="badge badge-grow">📈 Medium-High</span></td><td>High save rate, builds authority</td></tr>
+          <tr><td>Generic business tips (no story)</td><td><span class="badge badge-low">⬇ Low</span></td><td>Too common, no differentiation</td></tr>
+        </tbody>
+      </table>
+
+      <div class="trend-alert">
+        <div class="trend-alert-icon">⚡</div>
+        <div>
+          <div class="trend-alert-title">The Positioning Gap: Nobody Owns "The Great Ownership Transfer" on Instagram</div>
+          <p class="trend-alert-desc">Despite McKinsey confirming a $5 trillion wave of boomer business sales by 2035, no major Instagram creator has claimed this narrative. Codie Sanchez owns "boring businesses." Alex Hormozi owns "scaling." The "Great Ownership Transfer" is wide open — and Chris is the most credible person to own it.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 3: THE $5T OPPORTUNITY -->
+    <section class="section" id="opportunity">
+      <div class="section-badge">
+        <div class="section-badge-num">03</div>
+        <span class="section-badge-label">Viral Opportunity</span>
+      </div>
+      <h2 class="section-title">The <span class="grad">$5 Trillion</span> Opportunity</h2>
+      <div class="section-underline"></div>
+
+      <div class="opp-banner">
+        <div class="opp-banner-tag">🔥 Trending Right Now — McKinsey Report, February 2026</div>
+        <div class="opp-banner-title">The Great Ownership Transfer:<br><span class="grad-light">A Once-in-a-Generation Viral Narrative</span></div>
+        <p class="opp-banner-desc">By 2035, approximately 6 million small and medium-sized businesses will face ownership transitions as baby boomers retire. More than 1 million of these firms are viable candidates for sale, representing up to $5 trillion in enterprise value. This is the single biggest content opportunity in the entrepreneurship space right now.</p>
+        <div class="opp-stats">
+          <div class="opp-stat"><div class="opp-stat-num">$5T</div><div class="opp-stat-label">Enterprise Value</div></div>
+          <div class="opp-stat"><div class="opp-stat-num">6M</div><div class="opp-stat-label">Businesses For Sale</div></div>
+          <div class="opp-stat"><div class="opp-stat-num">1M+</div><div class="opp-stat-label">Viable Candidates</div></div>
+          <div class="opp-stat"><div class="opp-stat-num">2035</div><div class="opp-stat-label">Peak Transfer Year</div></div>
+        </div>
+      </div>
+
+      <div class="sub-title">Why This Is a Viral Content Opportunity</div>
+
+      <div class="why-grid">
+        <div class="why-card">
+          <div class="why-icon">🎯</div>
+          <div class="why-title">Massive, Underserved Market</div>
+          <p class="why-desc">Millions of aspiring entrepreneurs are looking for a path to ownership. Buying an existing business is far more attractive and less risky than starting from scratch — but almost no one is teaching this on Instagram at scale.</p>
+        </div>
+        <div class="why-card">
+          <div class="why-icon">⏰</div>
+          <div class="why-title">Timely &amp; Urgent</div>
+          <p class="why-desc">This is not an evergreen topic — it is a time-sensitive economic event happening right now. The McKinsey report dropped in February 2026. The news cycle is alive. Content riding this wave will get massive organic reach.</p>
+        </div>
+        <div class="why-card">
+          <div class="why-icon">💡</div>
+          <div class="why-title">High-Stakes &amp; Emotional</div>
+          <p class="why-desc">The dream of business ownership is a powerful emotional driver. Content that speaks to this aspiration — especially with a clear, credible guide — has an exceptionally high potential for saves, shares, and virality.</p>
+        </div>
+        <div class="why-card">
+          <div class="why-icon">🏆</div>
+          <div class="why-title">Perfectly Aligned with His Expertise</div>
+          <p class="why-desc">Chris's entire career has been built on buying and scaling businesses. He is not manufacturing authority — he has lived it. This authenticity is the most powerful ingredient for sustainable growth on Instagram in 2026.</p>
+        </div>
+      </div>
+
+      <div class="sub-title">Trends He Is Currently Missing</div>
+
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Trending Topic / Format</th>
+            <th>Current Coverage</th>
+            <th>Opportunity Score</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>The Great Ownership Transfer / Silver Tsunami</td><td>Not covered</td><td><span class="badge badge-fire">🔥 Critical</span></td></tr>
+          <tr><td>Seller financing &amp; creative deal structures</td><td>Minimal</td><td><span class="badge badge-fire">🔥 High</span></td></tr>
+          <tr><td>Live deal breakdowns (real-time analysis)</td><td>Minimal</td><td><span class="badge badge-fire">🔥 High</span></td></tr>
+          <tr><td>Carousels (currently outperforming Reels)</td><td>Underutilized</td><td><span class="badge badge-fire">🔥 High</span></td></tr>
+          <tr><td>Serialized acquisition journey content</td><td>Not used</td><td><span class="badge badge-grow">📈 Growing</span></td></tr>
+          <tr><td>Collab posts with ETA/finance creators</td><td>Not used</td><td><span class="badge badge-grow">📈 Growing</span></td></tr>
+          <tr><td>"Longevity Economy" / aging business owners</td><td>Not covered</td><td><span class="badge badge-grow">📈 Emerging</span></td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- SECTION 4: CONTENT STRATEGY -->
+    <section class="section" id="content">
+      <div class="section-badge">
+        <div class="section-badge-num">04</div>
+        <span class="section-badge-label">Content Strategy</span>
+      </div>
+      <h2 class="section-title">Viral Content <span class="grad">Playbook</span></h2>
+      <div class="section-underline"></div>
+
+      <div class="sub-title">The Winning Content Formula</div>
+
+      <p>Analysis of Chris's top-performing posts reveals a single, repeatable formula that drives the vast majority of his engagement. Every piece of content should be built around this structure.</p>
+
+      <div class="formula-box">
+        <div class="formula-label">The Story-Lesson-Hook Framework (Proven on His Account)</div>
+        <div class="formula-steps">
+          <div class="formula-step">🎣 Hook</div>
+          <div class="formula-arrow">→</div>
+          <div class="formula-step">📖 Story</div>
+          <div class="formula-arrow">→</div>
+          <div class="formula-step">💡 Lesson</div>
+          <div class="formula-arrow">→</div>
+          <div class="formula-step">📣 Call to Action</div>
+        </div>
+      </div>
+
+      <div class="sub-title">Content Format Strategy (2026)</div>
+
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Format</th>
+            <th>Priority</th>
+            <th>Best Use Case</th>
+            <th>Key Metric</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Carousels</td><td><span class="badge badge-fire">🔥 #1 Priority</span></td><td>Step-by-step guides, checklists, deal breakdowns</td><td>Saves &amp; Follows</td></tr>
+          <tr><td>Talking Head Reels</td><td><span class="badge badge-fire">🔥 #2 Priority</span></td><td>Personal stories, lessons, mindset, trending topics</td><td>Reach &amp; Shares</td></tr>
+          <tr><td>Serialized Series</td><td><span class="badge badge-grow">📈 #3 Priority</span></td><td>Multi-part acquisition journeys</td><td>Retention &amp; Loyalty</td></tr>
+          <tr><td>Collab Posts</td><td><span class="badge badge-grow">📈 #4 Priority</span></td><td>Cross-promotions with ETA/finance creators</td><td>New Followers</td></tr>
+        </tbody>
+      </table>
+
+      <div class="sub-title">High-Impact Content Ideas</div>
+
+      <div class="content-idea">
+        <span class="ci-type ci-reel">Reel</span>
+        <p class="ci-text">"I found a profitable business for sale on BizBuySell. Here's my 5-minute analysis of whether the deal is worth pursuing."</p>
+      </div>
+      <div class="content-idea">
+        <span class="ci-type ci-carousel">Carousel</span>
+        <p class="ci-text">"10 questions you MUST ask before buying any business — the ones brokers don't want you to know about."</p>
+      </div>
+      <div class="content-idea">
+        <span class="ci-type ci-series">Series</span>
+        <p class="ci-text">"Buying a Laundromat: A 5-Part Series on Finding, Financing, and Scaling a 'Boring' Business from $0 to $500K/year."</p>
+      </div>
+      <div class="content-idea">
+        <span class="ci-type ci-reel">Reel</span>
+        <p class="ci-text">"My biggest failure in business — and the due diligence lesson that cost me $200,000 to learn."</p>
+      </div>
+      <div class="content-idea">
+        <span class="ci-type ci-carousel">Carousel</span>
+        <p class="ci-text">"The Ultimate Due Diligence Checklist for Buying a Small Business (save this before your next deal)."</p>
+      </div>
+      <div class="content-idea">
+        <span class="ci-type ci-reel">Reel</span>
+        <p class="ci-text">"10,000 baby boomers retire every day. Most of them own a business. Most of those businesses will never sell. Here's your opportunity."</p>
+      </div>
+    </section>
+
+    <!-- SECTION 5: ROADMAP -->
+    <section class="section" id="roadmap">
+      <div class="section-badge">
+        <div class="section-badge-num">05</div>
+        <span class="section-badge-label">Growth Roadmap</span>
+      </div>
+      <h2 class="section-title">The Path to <span class="grad">1 Million</span></h2>
+      <div class="section-underline"></div>
+
+      <p>The roadmap is structured across three distinct phases, each with a clear strategic focus, set of actions, and measurable goal. The phases build on each other — establishing authority first, then amplifying reach, and finally converting that reach into a scalable business.</p>
+
+      <div class="roadmap-phase rp1">
+        <div class="rp-left">
+          <div class="rp-icon">🏗️</div>
+          <div class="rp-range">Phase 1<br>0 → 100K</div>
+        </div>
+        <div class="rp-right">
+          <div class="rp-title">Foundation &amp; Narrative Ownership</div>
+          <p class="rp-desc">Firmly establish Chris as the go-to authority on buying businesses from retiring baby boomers. Create a cornerstone piece of content that definitively introduces the "Great Ownership Transfer" narrative. Consistent implementation of the Story-First content model is non-negotiable during this phase.</p>
+          <div class="rp-tags">
+            <span class="rp-tag">Launch "Great Ownership Transfer" series</span>
+            <span class="rp-tag">5+ Reels/week with story hooks</span>
+            <span class="rp-tag">3+ Carousels/week</span>
+            <span class="rp-tag">Daily comment engagement</span>
+            <span class="rp-tag">Optimize bio &amp; highlights</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="roadmap-phase rp2">
+        <div class="rp-left">
+          <div class="rp-icon">📈</div>
+          <div class="rp-range">Phase 2<br>100K → 500K</div>
+        </div>
+        <div class="rp-right">
+          <div class="rp-title">Scaling &amp; Viral Amplification</div>
+          <p class="rp-desc">With a proven content engine in place, systematically amplify reach through strategic collaborations and doubling down on what is working. Pursue collab posts with creators in the finance, investing, and ETA niches. Launch a serialized acquisition series to drive appointment viewing and build deep audience loyalty.</p>
+          <div class="rp-tags">
+            <span class="rp-tag">Monthly collab posts with ETA creators</span>
+            <span class="rp-tag">Launch serialized acquisition series</span>
+            <span class="rp-tag">A/B test hooks systematically</span>
+            <span class="rp-tag">Engage trending news cycles</span>
+            <span class="rp-tag">Build broadcast channel community</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="roadmap-phase rp3">
+        <div class="rp-left">
+          <div class="rp-icon">🏆</div>
+          <div class="rp-range">Phase 3<br>500K → 1M+</div>
+        </div>
+        <div class="rp-right">
+          <div class="rp-title">Authority, Monetization &amp; Legacy</div>
+          <p class="rp-desc">Chris's personal brand is now a significant business asset. Convert the massive, engaged audience into revenue streams while continuing to grow. A high-ticket coaching program or mastermind for aspiring business buyers becomes the primary offer. Live events, workshops, and a book or podcast further cement his authority.</p>
+          <div class="rp-tags">
+            <span class="rp-tag">Launch high-ticket mastermind</span>
+            <span class="rp-tag">Host live acquisition events</span>
+            <span class="rp-tag">Podcast / long-form content</span>
+            <span class="rp-tag">Media appearances &amp; PR</span>
+            <span class="rp-tag">Book or flagship course</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="sub-title">2026 Instagram Algorithm Signals</div>
+
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Algorithm Signal</th>
+            <th>Why It Matters</th>
+            <th>Chris's Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Saves</td><td>Strongest indicator of content value</td><td>Create "save-worthy" carousels &amp; checklists</td></tr>
+          <tr><td>Shares</td><td>Drives exponential reach</td><td>Make every Reel shareable with a strong POV</td></tr>
+          <tr><td>Watch time / Retention</td><td>Determines Reel distribution</td><td>Hook in first 2 seconds, no fluff</td></tr>
+          <tr><td>Long captions (8–15 lines)</td><td>2–3x better engagement than short</td><td>Tell the full story in the caption</td></tr>
+          <tr><td>Authenticity over polish</td><td>Raw content outperforms produced</td><td>Film in real environments, not studios</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- SECTION 6: HOOK CREATOR -->
+    <section class="section" id="hook-creator" style="background: linear-gradient(135deg, #F0EBF8 0%, #E8F4F8 100%);">
+      <div class="section-badge">
+        <div class="section-badge-num" style="background: linear-gradient(135deg, #E040A0, #F07830);">06</div>
+        <span class="section-badge-label">Hook Creator</span>
+      </div>
+      <h2 class="section-title">🎣 Viral Hook <span class="grad">Creator</span></h2>
+      <div class="section-underline"></div>
+
+      <p>Every viral post starts with a scroll-stopping hook. Below are <strong>30+ hooks engineered specifically for Chris's niche</strong> — business acquisition, ETA, the Great Ownership Transfer, and entrepreneurship mindset — organized by the psychological pattern that makes each one work. Click any hook to copy it instantly.</p>
+
+      <!-- Hook Generator Tool -->
+      <div class="hook-generator">
+        <div class="hook-gen-title">⚡ Instant Hook Generator</div>
+        <div class="hook-gen-desc">Select a topic and hook type, then generate a custom scroll-stopping hook for your next post.</div>
+        <div class="hook-gen-row">
+          <select class="hook-gen-select" id="hookTopic">
+            <option value="">Select a topic...</option>
+            <option value="boomer">Baby Boomer Business Sale</option>
+            <option value="deal">Deal Breakdown / Analysis</option>
+            <option value="mistake">Biggest Acquisition Mistake</option>
+            <option value="nodown">No Money Down Deal</option>
+            <option value="mindset">Investor Mindset</option>
+            <option value="duediligence">Due Diligence Secrets</option>
+            <option value="boring">Boring Business = Big Money</option>
+            <option value="seller">Seller Financing</option>
+            <option value="freedom">Financial Freedom Through Buying</option>
+            <option value="failure">Personal Failure Story</option>
+          </select>
+          <select class="hook-gen-select" id="hookType">
+            <option value="">Select hook type...</option>
+            <option value="curiosity">Curiosity Gap</option>
+            <option value="problem">Problem Amplification</option>
+            <option value="authority">Authority Challenge</option>
+            <option value="transformation">Transformation / Before-After</option>
+            <option value="pov">POV / Perspective Shift</option>
+            <option value="number">Number / List Hook</option>
+          </select>
+          <button class="hook-gen-btn" onclick="generateHook()">Generate Hook ✨</button>
+        </div>
+        <div class="hook-output" id="hookOutput">
+          <button class="hook-output-copy" onclick="copyOutput()">Copy</button>
+          <span id="hookOutputText"></span>
+        </div>
+      </div>
+
+      <!-- Hook Tabs -->
+      <div class="hook-tabs">
+        <button class="hook-tab active" onclick="switchTab('curiosity', this)">🧠 Curiosity Gap</button>
+        <button class="hook-tab" onclick="switchTab('problem', this)">😤 Problem Amplification</button>
+        <button class="hook-tab" onclick="switchTab('authority', this)">⚡ Authority Challenge</button>
+        <button class="hook-tab" onclick="switchTab('transformation', this)">🔄 Transformation</button>
+        <button class="hook-tab" onclick="switchTab('pov', this)">👁️ POV / Perspective</button>
+        <button class="hook-tab" onclick="switchTab('number', this)">🔢 Number Hooks</button>
+      </div>
+
+      <!-- CURIOSITY GAP HOOKS -->
+      <div class="hook-panel active" id="panel-curiosity">
+        <div class="hook-intro">
+          <div class="hook-intro-icon">🧠</div>
+          <div>
+            <div class="hook-intro-title">Curiosity Gap Hooks</div>
+            <p class="hook-intro-desc">Opens an information gap the viewer's brain physically cannot ignore. The viewer <em>needs</em> to keep watching to close the loop. Works best when you combine specificity with a hidden result.</p>
+          </div>
+        </div>
+        <div class="hook-list">
+          <div class="hook-item" onclick="copyHook(this)">
+            <div class="hook-num">1</div>
+            <p class="hook-text">"There's a $5 trillion opportunity that nobody on Instagram is talking about. Here's how you can get a piece of it before it disappears…"</p>
+            <button class="hook-copy-btn">Copy</button>
+            <div class="hook-why">Why it works: Combines a massive number ($5T) with exclusivity ("nobody is talking about") and urgency ("before it disappears"). The viewer must keep watching to learn what the opportunity is.</div>
+          </div>
+          <div class="hook-item" onclick="copyHook(this)">
+            <div class="hook-num">2</div>
+            <p class="hook-text">"10,000 baby boomers retire every single day. Most of them own a business. And most of those businesses will never sell. Here's why that's your opportunity…"</p>
+            <button class="hook-copy-btn">Copy</button>
+            <div class="hook-why">Why it works: Opens with a shocking statistic, then creates a curiosity gap by framing a problem as an opportunity. The audience must watch to understand the connection.</div>
+          </div>
+          <div class="hook-item" onclick="copyHook(this)">
+            <div class="hook-num">3</div>
+            <p class="hook-text">"I found a business doing $2M a year in revenue listed for sale on BizBuySell. Nobody had made an offer in 6 months. Here's what I found when I dug deeper…"</p>
+            <button class="hook-copy-btn">Copy</button>
+            <div class="hook-why">Why it works: Specific numbers create credibility. The mystery of "why no offers" creates an irresistible curiosity gap. The audience needs to know what he found.</div>
+          </div>
+          <div class="hook-item" onclick="copyHook(this)">
+            <div class="hook-num">4</div>
+            <p class="hook-text">"The reason most people never buy a business has nothing to do with money. It has everything to do with this one thing…"</p>
+            <button class="hook-copy-btn">Copy</button>
+            <div class="hook-why">Why it works: Challenges the most common assumption (money) and promises a surprising alternative. The viewer cannot scroll past without knowing what "this one thing" is.</div>
+          </div>
+          <div class="hook-item" onclick="copyHook(this)">
+            <div class="hook-num">5</div>
+            <p class="hook-text">"A 68-year-old business owner called me last week. He'd been trying to sell his $800K/year business for 2 years. Not a single serious buyer. Here's what I told him…"</p>
+            <button class="hook-copy-btn">Copy</button>
+            <div class="hook-why">Why it works: Specific details (age, revenue, timeframe) make it feel real. The unresolved situation creates a powerful curiosity gap. The audience needs to hear what advice was given.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PROBLEM AMPLIFICATION HOOKS -->
+      <div class="hook-panel" id="panel-problem">
+        <div class="hook-intro">
+          <div class="hook-intro-icon">😤</div>
+          <div>
+            <div class="hook-intro-title">Problem Amplification Hooks</div>
+            <p class="hook-intro-desc">Names a frustration your audience already feels but hasn't articulated. When someone hears their own struggle described precisely, they stop scrolling because the video feels made specifically for them.</p>
+          </div>
+        </div>
+        <div class="hook-list">
+          <div class="hook-item" onclick="copyHook(this)">
+            <div class="hook-num">1</div>
+            <p class="hook-text">"You're working 60-hour weeks building someone else's dream. You've thought about starting a business but the risk terrifies you. Nobody told you there's a third option…"</p>
+            <button class="hook-copy-btn">Copy</button>
+            <div class="hook-why">Why it works: Speaks directly to the exact frustration of the ICP (corporate professional wanting out). "Third option" creates a curiosity gap that keeps them watching.</div>
+          </div>
+          <div class="hook-item" onclick="copyHook(this)">
+            <div class="hook-num">2</div>
+            <p class="hook-text">"You've been saving money for years to start a business. But every time you look at the startup failure rate, you talk yourself out of it. Here's what you're missing…"</p>
+            <button class="hook-copy-btn">Copy</button>
+            <div class="hook-why">Why it works: Describes the exact internal dialogue of the aspiring entrepreneur. The "here's what you're missing" creates urgency and positions Chris as the guide.</div>
+          </div>
+          <div class="hook-item" onclick="copyHook(this)">
+            <div class="hook-num">3</div>
+            <p class="hook-text">"If you're trying to build wealth by starting a business from scratch in 2026, you're playing the hardest version of the game. Here's the easier path…"</p>
+            <button class="hook-copy-btn">Copy</button>
+            <div class="hook-why">Why it works: Validates the audience's struggle while positioning the acquisition path as the smarter alternative. Loss aversion (playing the "hardest version") is a powerful motivator.</div>
+          </div>
+          <div class="hook-item" onclick="copyHook(this)">
+            <div class="hook-num">4</div>
+            <p class="hook-text">"Most people who want to buy a business never actually do it. Not because they can't afford it. Because nobody taught them how to find the deal…"</p>
+            <button class="hook-copy-btn">Copy</button>
+            <div class="hook-why">Why it works: Reframes the obstacle from money (which feels permanent) to knowledge (which feels solvable). This positions Chris as the solution and makes the audience feel empowered.</div>
+          </div>
+          <div class="hook-item" onclick="copyHook(this)">
+            <div class="hook-num">5</div>
+            <p class="hook-text">"The business broker is not on your side. The seller's accountant is not on your side. And most acquisition advisors charge $50K upfront. Here's how I navigate this alone…"</p>
+            <button class="hook-copy-btn">Copy</button>
+            <div class="hook-why">Why it works: Creates a "us vs. them" dynamic that the audience immediately relates to. Positions Chris as the insider guide who has cracked the code.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- AUTHORITY CHALLENGE HOOKS -->
+      <div class="hook-panel" id="panel-authority">
+        <div class="hook-intro">
+          <div class="hook-intro-icon">⚡</div>
+          <div>
+            <div class="hook-intro-title">Authority Challenge Hooks</div>
+            <p class="hook-intro-desc">Challenges conventional wisdom or calls out an authority figure. Humans are wired to pay attention to conflict and contrarian viewpoints. These hooks activate the brain's threat-evaluation system — impossible to ignore.</p>
+          </div>
+        </div>
+        <div class="hook-list">
+          <div class="hook-item" onclick="copyHook(this)">
+            <div class="hook-num">1</div>
+            <p class="hook-text">"Unpopular opinion: starting a business in 2026 is one of the worst financial decisions you can make. Here's what I'd do instead…"</p>
+            <button class="hook-copy-btn">Copy</button>
+            <div class="hook-why">Why it works: Directly challenges the dominant narrative of entrepreneurship culture. The contrarian stance creates immediate engagement — people either agree and want validation, or disagree and want to argue.</div>
+          </div>
+          <div class="hook-item" onclick="copyHook(this)">
+            <div class="hook-num">2</div>
+            <p class="hook-text">"I've bought and sold 10+ businesses. And I'm telling you — the 'start from scratch' advice you're getting from most business gurus is going to cost you years of your life…"</p>
+            <button class="hook-copy-btn">Copy</button>
+            <div class="hook-why">Why it works: Leads with hard-won credentials (10+ businesses) and then challenges a widely-held belief. The authority makes the challenge credible rather than just contrarian.</div>
+          </div>
+          <div class="hook-item" onclick="copyHook(this)">
+            <div class="hook-num">3</div>
+            <p class="hook-text">"Stop listening to people who've never actually bought a business tell you how to buy a business. Here's what it actually looks like from someone who's done it 10 times…"</p>
+            <button class="hook-copy-btn">Copy</button>
+            <div class="hook-why">Why it works: Calls out a credibility gap in the market and positions Chris as the authentic alternative. His real-world experience is the differentiator.</div>
+          </div>
+          <div class="hook-item" onclick="copyHook(this)">
+            <div class="hook-num">4</div>
+            <p class="hook-text">"The MBA program won't teach you this. The business school case study won't cover it. But buying a boring, cash-flowing business is the fastest path to financial freedom in 2026…"</p>
+            <button class="hook-copy-btn">Copy</button>
+            <div class="hook-why">Why it works: Positions the acquisition path as insider knowledge that the establishment deliberately ignores. Creates a sense of exclusivity and makes the viewer feel like they're getting access to something rare.</div>
+          </div>
+          <div class="hook-item" onclick="copyHook(this)">
+            <div class="hook-num">5</div>
+            <p class="hook-text">"Every business coach is telling you to 'build your personal brand' and 'create content.' I'm telling you to buy a business that already makes money. Here's why I'm right…"</p>
+            <button class="hook-copy-btn">Copy</button>
+            <div class="hook-why">Why it works: Directly challenges the content creator economy narrative that dominates Instagram. Positions Chris as a contrarian voice with a more practical, results-oriented approach.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- TRANSFORMATION HOOKS -->
+      <div class="hook-panel" id="panel-transformation">
+        <div class="hook-intro">
+          <div class="hook-intro-icon">🔄</div>
+          <div>
+            <div class="hook-intro-title">Transformation &amp; Before-After Hooks</div>
+            <p class="hook-intro-desc">Shows the end result first, then creates a compulsion to learn the how. Taps into aspirational desire — the same mechanism that makes makeover shows impossible to stop watching.</p>
+          </div>
+        </div>
+        <div class="hook-list">
+          <div class="hook-item" onclick="copyHook(this)">
+            <div class="hook-num">1</div>
+            <p class="hook-text">"2 years ago I was working a corporate job I hated. Today I own 3 cash-flowing businesses. Here's the exact path I took…"</p>
+            <button class="hook-copy-btn">Copy</button>
+            <div class="hook-why">Why it works: Classic before-after that speaks directly to the ICP's dream scenario. The "exact path" promise makes it feel actionable and achievable, not just aspirational.</div>
+          </div>
+          <div class="hook-item" onclick="copyHook(this)">
+            <div class="hook-num">2</div>
+            <p class="hook-text">"I almost walked away from the deal that changed my life. Here's the moment I nearly said no — and what made me say yes…"</p>
+            <button class="hook-copy-btn">Copy</button>
+            <div class="hook-why">Why it works: Creates narrative tension (almost walked away) and emotional investment. The audience needs to know what almost stopped him and what changed his mind.</div>
+          </div>
+          <div class="hook-item" onclick="copyHook(this)">
+            <div class="hook-num">3</div>
+            <p class="hook-text">"I lost $200,000 on my first business acquisition. Here's the 3 mistakes I made and exactly how I made it back on the next deal…"</p>
+            <button class="hook-copy-btn">Copy</button>
+            <div class="hook-why">Why it works: Vulnerability builds trust. The specific loss amount ($200K) creates credibility. The "made it back" redemption arc is a powerful narrative that keeps viewers watching.</div>
+          </div>
+          <div class="hook-item" onclick="copyHook(this)">
+            <div class="hook-num">4</div>
+            <p class="hook-text">"Watch me analyze a real business for sale in under 5 minutes — and tell you exactly whether it's a deal or a disaster…"</p>
+            <button class="hook-copy-btn">Copy</button>
+            <div class="hook-why">Why it works: The "watch me" format creates a live demonstration dynamic. The time constraint (5 minutes) makes it feel accessible. The binary outcome (deal or disaster) creates suspense.</div>
+          </div>
+          <div class="hook-item" onclick="copyHook(this)">
+            <div class="hook-num">5</div>
+            <p class="hook-text">"From $0 to owning a business doing $1.2M in revenue — without a business degree, without a trust fund, and without quitting my job first. Here's how…"</p>
+            <button class="hook-copy-btn">Copy</button>
+            <div class="hook-why">Why it works: Removes the three biggest objections (education, money, risk) in the hook itself. The audience immediately identifies with the constraints and is compelled to learn how he overcame them.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- POV HOOKS -->
+      <div class="hook-panel" id="panel-pov">
+        <div class="hook-intro">
+          <div class="hook-intro-icon">👁️</div>
+          <div>
+            <div class="hook-intro-title">POV &amp; Perspective Shift Hooks</div>
+            <p class="hook-intro-desc">Places the viewer inside a scenario or challenges their worldview. Creates immediate identification and emotional engagement. Particularly powerful for the "aspiring buyer" ICP who is stuck in analysis paralysis.</p>
+          </div>
+        </div>
+        <div class="hook-list">
+          <div class="hook-item" onclick="copyHook(this)">
+            <div class="hook-num">1</div>
+            <p class="hook-text">"POV: You just bought a business for $0 down using seller financing. The previous owner is now your mentor. And you're making $15K a month in your first 90 days…"</p>
+            <button class="hook-copy-btn">Copy</button>
+            <div class="hook-why">Why it works: Places the viewer directly in the dream scenario. The specific details ($0 down, mentor relationship, $15K/month) make it feel real and achievable rather than abstract.</div>
+          </div>
+          <div class="hook-item" onclick="copyHook(this)">
+            <div class="hook-num">2</div>
+            <p class="hook-text">"You're not an entrepreneur. You're not an investor. You're something better — you're a business buyer. And that changes everything…"</p>
+            <button class="hook-copy-btn">Copy</button>
+            <div class="hook-why">Why it works: Creates a new identity for the viewer that feels exclusive and empowering. "That changes everything" creates a curiosity gap that keeps them watching.</div>
+          </div>
+          <div class="hook-item" onclick="copyHook(this)">
+            <div class="hook-num">3</div>
+            <p class="hook-text">"Imagine buying a business that's already been running for 20 years, already has customers, already has employees, and already makes money. That's not a fantasy. That's Tuesday for me…"</p>
+            <button class="hook-copy-btn">Copy</button>
+            <div class="hook-why">Why it works: The "imagine" opener creates a vivid mental picture. The contrast between "fantasy" and "Tuesday for me" positions Chris as the aspirational figure while making the dream feel accessible.</div>
+          </div>
+          <div class="hook-item" onclick="copyHook(this)">
+            <div class="hook-num">4</div>
+            <p class="hook-text">"The way most people think about building wealth is completely backwards. They're trying to build something from nothing. I'm buying something that already works…"</p>
+            <button class="hook-copy-btn">Copy</button>
+            <div class="hook-why">Why it works: Reframes the entire concept of wealth-building and positions the acquisition path as the logical, obvious choice. The contrast between "build from nothing" and "buy something that works" is simple and memorable.</div>
+          </div>
+          <div class="hook-item" onclick="copyHook(this)">
+            <div class="hook-num">5</div>
+            <p class="hook-text">"In 10 years, you'll either wish you bought one of the 6 million businesses baby boomers are selling right now — or you'll own one. Which person do you want to be?"</p>
+            <button class="hook-copy-btn">Copy</button>
+            <div class="hook-why">Why it works: Creates a future regret scenario (powerful motivator) and forces a binary identity choice. The specific number (6 million) adds credibility and scale to the opportunity.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- NUMBER HOOKS -->
+      <div class="hook-panel" id="panel-number">
+        <div class="hook-intro">
+          <div class="hook-intro-icon">🔢</div>
+          <div>
+            <div class="hook-intro-title">Number &amp; List Hooks</div>
+            <p class="hook-intro-desc">Numbers create instant specificity and credibility. The brain processes numbers differently from words — they feel concrete, measurable, and trustworthy. List hooks also set clear expectations, reducing cognitive resistance to watching.</p>
+          </div>
+        </div>
+        <div class="hook-list">
+          <div class="hook-item" onclick="copyHook(this)">
+            <div class="hook-num">1</div>
+            <p class="hook-text">"5 questions I ask every business owner before I even consider making an offer — and the answers that make me walk away immediately…"</p>
+            <button class="hook-copy-btn">Copy</button>
+            <div class="hook-why">Why it works: The list structure (5 questions) sets clear expectations. The "walk away immediately" creates suspense — the audience wants to know what red flags to avoid.</div>
+          </div>
+          <div class="hook-item" onclick="copyHook(this)">
+            <div class="hook-num">2</div>
+            <p class="hook-text">"3 types of businesses baby boomers are selling right now that nobody wants to buy — but that are printing money for the people who do…"</p>
+            <button class="hook-copy-btn">Copy</button>
+            <div class="hook-why">Why it works: The "nobody wants to buy" creates a contrarian opportunity framing. The "printing money" payoff makes it irresistible. Directly ties into the Silver Tsunami trend.</div>
+          </div>
+          <div class="hook-item" onclick="copyHook(this)">
+            <div class="hook-num">3</div>
+            <p class="hook-text">"I've bought 10 businesses. Here are the 3 mistakes I made on my first deal that I'll never make again — and that you should avoid at all costs…"</p>
+            <button class="hook-copy-btn">Copy</button>
+            <div class="hook-why">Why it works: Credentials (10 businesses) + vulnerability (mistakes) + actionable value (avoid these) = a perfect hook formula. The "never make again" signals hard-won wisdom.</div>
+          </div>
+          <div class="hook-item" onclick="copyHook(this)">
+            <div class="hook-num">4</div>
+            <p class="hook-text">"7 things that happen in the first 90 days after you buy a business that nobody warns you about — and how to handle each one…"</p>
+            <button class="hook-copy-btn">Copy</button>
+            <div class="hook-why">Why it works: "Nobody warns you about" creates exclusivity and insider knowledge framing. The 90-day timeframe is specific and relatable. The "how to handle each one" promises actionable value.</div>
+          </div>
+          <div class="hook-item" onclick="copyHook(this)">
+            <div class="hook-num">5</div>
+            <p class="hook-text">"$0 down. $1.2M in revenue. 14 employees. Here's the exact deal structure I used to buy this business without spending a dollar of my own money…"</p>
+            <button class="hook-copy-btn">Copy</button>
+            <div class="hook-why">Why it works: Opens with three specific numbers that immediately establish credibility and scale. The "exact deal structure" promise makes it feel like a masterclass, not just a story.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+      <div class="footer-logo">
+        <img src="logowordmarknoBG.png" alt="Outlier">
+      </div>
+      <div class="footer-text">Real Time Virality Radar &nbsp;·&nbsp; Confidential — For Chris Allchin Only &nbsp;·&nbsp; March 2026</div>
+      <div class="footer-text">outlier.ai</div>
+    </footer>
+
+  </div><!-- end .main -->
+
+  <!-- ─── SIDEBAR ─── -->
+  <div class="sidebar">
+
+    <!-- Quick Nav -->
+    <div class="sidebar-card">
+      <div class="sidebar-card-header">
+        <div class="sidebar-card-icon">🗺️</div>
+        <div>
+          <div class="sidebar-card-title">Quick Navigation</div>
+          <div class="sidebar-card-sub">Jump to any section</div>
+        </div>
+      </div>
+      <div class="sidebar-card-body" style="padding: 10px 12px;">
+        <div class="quick-nav">
+          <a href="#summary" class="quick-nav-item"><div class="quick-nav-dot"></div>Executive Summary</a>
+          <a href="#audience" class="quick-nav-item"><div class="quick-nav-dot"></div>Audience &amp; ICP</a>
+          <a href="#opportunity" class="quick-nav-item"><div class="quick-nav-dot"></div>$5T Opportunity</a>
+          <a href="#content" class="quick-nav-item"><div class="quick-nav-dot"></div>Content Playbook</a>
+          <a href="#roadmap" class="quick-nav-item"><div class="quick-nav-dot"></div>Roadmap to 1M</a>
+          <a href="#hook-creator" class="quick-nav-item" style="color: var(--purple-mid); font-weight: 800;"><div class="quick-nav-dot" style="background: var(--purple-mid);"></div>🎣 Hook Creator</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Viral Trends Panel -->
+    <div class="sidebar-card">
+      <div class="sidebar-card-header">
+        <div class="sidebar-card-icon">🔥</div>
+        <div>
+          <div class="sidebar-card-title">Viral Trends to Ride</div>
+          <div class="sidebar-card-sub">March 2026 — Act Now</div>
+        </div>
+      </div>
+      <div class="sidebar-card-body">
+
+        <div class="trend-item">
+          <div class="trend-rank tr-fire">🔥</div>
+          <div class="trend-content">
+            <div class="trend-name">The Silver Tsunami / Great Ownership Transfer</div>
+            <div class="trend-detail">McKinsey dropped a landmark report Feb 26. $5T in boomer businesses going up for sale. This is the hottest business story right now — and Chris is the perfect person to own it.</div>
+            <div class="trend-heat">
+              <div class="trend-heat-bar" style="width: 90px;"></div>
+              <span class="trend-heat-label">🔥 Critical</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="trend-item">
+          <div class="trend-rank tr-new">🆕</div>
+          <div class="trend-content">
+            <div class="trend-name">"Boring Business" Acquisition Wave</div>
+            <div class="trend-detail">Codie Sanchez's "boring business" content is getting millions of views. Laundromats, car washes, HVAC companies — Chris can own the acquisition angle of this trend with real deal breakdowns.</div>
+            <div class="trend-heat">
+              <div class="trend-heat-bar" style="width: 80px;"></div>
+              <span class="trend-heat-label">🔥 Very High</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="trend-item">
+          <div class="trend-rank tr-up">📈</div>
+          <div class="trend-content">
+            <div class="trend-name">Seller Financing Explainer Content</div>
+            <div class="trend-detail">Search volume for "seller financing" and "buy a business no money down" is surging. Educational content on creative deal structures is getting massive saves and shares right now.</div>
+            <div class="trend-heat">
+              <div class="trend-heat-bar" style="width: 72px;"></div>
+              <span class="trend-heat-label">📈 High</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="trend-item">
+          <div class="trend-rank tr-hot">⚡</div>
+          <div class="trend-content">
+            <div class="trend-name">Live Deal Analysis / "Rate This Deal"</div>
+            <div class="trend-detail">Creators doing real-time analysis of actual businesses for sale (from BizBuySell, Flippa, etc.) are going viral. The "would I buy this?" format is highly engaging and shareable.</div>
+            <div class="trend-heat">
+              <div class="trend-heat-bar" style="width: 68px;"></div>
+              <span class="trend-heat-label">📈 High</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="trend-item">
+          <div class="trend-rank tr-up">📈</div>
+          <div class="trend-content">
+            <div class="trend-name">Anti-Startup / "Buy Don't Build" Narrative</div>
+            <div class="trend-detail">Contrarian content challenging the "start from scratch" startup culture is resonating strongly in 2026. The 90% startup failure rate vs. acquisition success rates is a powerful hook.</div>
+            <div class="trend-heat">
+              <div class="trend-heat-bar" style="width: 64px;"></div>
+              <span class="trend-heat-label">📈 Growing</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="trend-item">
+          <div class="trend-rank tr-new">🆕</div>
+          <div class="trend-content">
+            <div class="trend-name">Longevity Economy / Aging Business Owners</div>
+            <div class="trend-detail">New trend emerging around the "longevity economy" — aging baby boomers as both sellers and consumers. A fresh angle that ties into the Silver Tsunami with a human story element.</div>
+            <div class="trend-heat">
+              <div class="trend-heat-bar" style="width: 50px;"></div>
+              <span class="trend-heat-label">🆕 Emerging</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="trend-item">
+          <div class="trend-rank tr-up">📈</div>
+          <div class="trend-content">
+            <div class="trend-name">Carousels Are Back (Outperforming Reels)</div>
+            <div class="trend-detail">2026 data shows carousels are generating 2–3x more saves and follow conversions than Reels. Chris should immediately shift to producing 3+ carousels per week with checklists and frameworks.</div>
+            <div class="trend-heat">
+              <div class="trend-heat-bar" style="width: 76px;"></div>
+              <span class="trend-heat-label">🔥 Act Now</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="trend-item" style="border-bottom: none; padding-bottom: 0;">
+          <div class="trend-rank tr-hot">⚡</div>
+          <div class="trend-content">
+            <div class="trend-name">ETA (Entrepreneurship Through Acquisition) Education</div>
+            <div class="trend-detail">McGill University just launched a formal ETA program (Feb 2026). Fast Company ran a feature on ETA as the hottest side hustle. The mainstream media is catching up — Chris should be the Instagram authority when they do.</div>
+            <div class="trend-heat">
+              <div class="trend-heat-bar" style="width: 60px;"></div>
+              <span class="trend-heat-label">📈 Growing Fast</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Quick Stats -->
+    <div class="sidebar-card">
+      <div class="sidebar-card-header">
+        <div class="sidebar-card-icon">📊</div>
+        <div>
+          <div class="sidebar-card-title">Algorithm Signals</div>
+          <div class="sidebar-card-sub">What Instagram rewards in 2026</div>
+        </div>
+      </div>
+      <div class="sidebar-card-body">
+        <div style="display: flex; flex-direction: column; gap: 10px;">
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <span style="font-size: 12px; font-weight: 600; color: var(--text-mid);">Saves</span>
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <div style="width: 80px; height: 6px; background: rgba(155,111,212,0.1); border-radius: 3px; overflow: hidden;">
+                <div style="width: 95%; height: 100%; background: linear-gradient(90deg, #4DD9E0, #9B6FD4); border-radius: 3px;"></div>
+              </div>
+              <span style="font-size: 11px; font-weight: 700; color: #38C9D4;">#1</span>
+            </div>
+          </div>
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <span style="font-size: 12px; font-weight: 600; color: var(--text-mid);">Shares</span>
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <div style="width: 80px; height: 6px; background: rgba(155,111,212,0.1); border-radius: 3px; overflow: hidden;">
+                <div style="width: 88%; height: 100%; background: linear-gradient(90deg, #9B6FD4, #E040A0); border-radius: 3px;"></div>
+              </div>
+              <span style="font-size: 11px; font-weight: 700; color: #7B4FC0;">#2</span>
+            </div>
+          </div>
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <span style="font-size: 12px; font-weight: 600; color: var(--text-mid);">Watch Time</span>
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <div style="width: 80px; height: 6px; background: rgba(155,111,212,0.1); border-radius: 3px; overflow: hidden;">
+                <div style="width: 80%; height: 100%; background: linear-gradient(90deg, #E040A0, #F07830); border-radius: 3px;"></div>
+              </div>
+              <span style="font-size: 11px; font-weight: 700; color: #E040A0;">#3</span>
+            </div>
+          </div>
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <span style="font-size: 12px; font-weight: 600; color: var(--text-mid);">Comments</span>
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <div style="width: 80px; height: 6px; background: rgba(155,111,212,0.1); border-radius: 3px; overflow: hidden;">
+                <div style="width: 65%; height: 100%; background: linear-gradient(90deg, #F07830, #F5C842); border-radius: 3px;"></div>
+              </div>
+              <span style="font-size: 11px; font-weight: 700; color: #F07830;">#4</span>
+            </div>
+          </div>
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <span style="font-size: 12px; font-weight: 600; color: var(--text-mid);">Likes</span>
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <div style="width: 80px; height: 6px; background: rgba(155,111,212,0.1); border-radius: 3px; overflow: hidden;">
+                <div style="width: 45%; height: 100%; background: linear-gradient(90deg, #F5C842, #4DD9E0); border-radius: 3px;"></div>
+              </div>
+              <span style="font-size: 11px; font-weight: 700; color: var(--text-light);">#5</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- end .sidebar -->
+
+</div><!-- end .layout -->
+
+<script>
+// ─── TAB SWITCHING ───
+function switchTab(tabId, btn) {
+  document.querySelectorAll('.hook-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.hook-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('panel-' + tabId).classList.add('active');
+  btn.classList.add('active');
+}
+
+// ─── COPY HOOK ───
+function copyHook(item) {
+  const text = item.querySelector('.hook-text').textContent.trim();
+  navigator.clipboard.writeText(text).then(() => {
+    const btn = item.querySelector('.hook-copy-btn');
+    btn.textContent = '✓ Copied!';
+    btn.classList.add('copied-btn');
+    item.classList.add('copied');
+    showToast('Hook copied to clipboard!');
+    setTimeout(() => {
+      btn.textContent = 'Copy';
+      btn.classList.remove('copied-btn');
+      item.classList.remove('copied');
+    }, 2000);
+  });
+}
+
+// ─── TOAST ───
+function showToast(msg) {
+  const toast = document.getElementById('toast');
+  toast.textContent = '✓ ' + msg;
+  toast.classList.add('show');
+  setTimeout(() => toast.classList.remove('show'), 2500);
+}
+
+// ─── HOOK GENERATOR ───
+const hookData = {
+  boomer: {
+    curiosity: "There are 10,000 baby boomers retiring today. Most of them own a business. Most of those businesses will never sell. Here's why that's the biggest opportunity of your lifetime…",
+    problem: "You've been waiting for the 'right time' to buy a business. Meanwhile, 10,000 baby boomers are retiring every single day — and their businesses are going unsold. Here's what you're missing…",
+    authority: "I've been buying businesses for 10 years. And I'm telling you — the baby boomer business sale wave is the single biggest wealth-building opportunity of our generation. Here's why most people will miss it…",
+    transformation: "3 years ago I had no idea what 'seller financing' meant. Today I own a business I bought from a retiring baby boomer for $0 down. Here's the exact path I took…",
+    pov: "Imagine buying a business that a 65-year-old has spent 30 years building. He just wants to retire. He'll finance the deal himself. And you inherit 30 years of customers, systems, and goodwill. That's the Silver Tsunami…",
+    number: "3 types of businesses baby boomers are selling right now that nobody wants to buy — but that are printing money for the people who do…"
+  },
+  deal: {
+    curiosity: "I found a business listed for $800K on BizBuySell. Nobody had made an offer in 8 months. Here's what I found when I ran the numbers…",
+    problem: "Most people look at a business listing and have no idea if it's a good deal or a disaster. Here's the 5-minute framework I use to know immediately…",
+    authority: "I've analyzed hundreds of business listings. And I can tell you — 90% of them are overpriced. Here's exactly how to spot the 10% that are worth your time…",
+    transformation: "Watch me analyze a real business for sale in under 5 minutes — and tell you whether it's a deal or a disaster…",
+    pov: "POV: You're looking at a business doing $1.2M in revenue, listed for $400K. You don't know if it's a steal or a trap. Here's exactly what to look at first…",
+    number: "5 numbers you must check before making an offer on any business — and the one number that will tell you everything you need to know…"
+  },
+  mistake: {
+    curiosity: "The mistake I made on my first acquisition cost me $200,000. Nobody warned me about it. Here's what happened — and how to make sure it never happens to you…",
+    problem: "If you're about to buy your first business, there's one mistake that almost every first-time buyer makes. And by the time you realize it, it's too late…",
+    authority: "I've made every mistake in the acquisition playbook. Here are the 3 that hurt the most — and the ones I'll never make again…",
+    transformation: "I lost $200K on my first deal. Here's exactly what went wrong — and how I made it all back on the next one…",
+    pov: "You've just signed the LOI on your first business acquisition. You're excited. You're nervous. And you're about to make the same mistake 80% of first-time buyers make. Here's how to stop yourself…",
+    number: "3 mistakes I made on my first business acquisition that cost me $200,000 — and how you can avoid every single one of them…"
+  },
+  nodown: {
+    curiosity: "I bought a business doing $1.2M in revenue without spending a single dollar of my own money. Here's the deal structure I used — and why most people have never heard of it…",
+    problem: "You think you need $500K to buy a business. You don't. Here's how to structure a deal where the seller finances the purchase — and you walk in with $0 down…",
+    authority: "I've bought multiple businesses with seller financing. Here's the honest truth about how it works — and why most brokers won't tell you about it…",
+    transformation: "From $0 down to owning a cash-flowing business in 90 days. Here's the exact seller financing structure I used — and how you can replicate it…",
+    pov: "POV: You just bought a business for $0 down. The seller is now your mentor. And you're generating cash flow from day one. That's seller financing — and it's more common than you think…",
+    number: "5 creative deal structures that let you buy a business with little to no money down — and the one I use most often…"
+  },
+  mindset: {
+    curiosity: "The difference between people who buy businesses and
+ people who don't isn't intelligence or capital. It's one specific mindset shift. Here's what it is…",
+    problem: "You keep researching. You keep analyzing. You keep saying 'not yet.' Here's the real reason you haven't pulled the trigger on buying a business yet…",
+    authority: "I've coached hundreds of aspiring business buyers. And the #1 thing that stops people isn't money or knowledge. It's this one mental block…",
+    transformation: "I used to be paralyzed by analysis. I'd find a great deal and talk myself out of it. Here's the mindset shift that changed everything for me…",
+    pov: "You're not afraid of buying a business. You're afraid of being wrong. Here's how to reframe that fear into the most powerful due diligence tool you have…",
+    number: "3 mindset shifts that separate people who build wealth through acquisitions from people who just read about it…"
+  },
+  duediligence: {
+    curiosity: "There's one question I ask every seller that tells me everything I need to know about a business — and most buyers never think to ask it. Here's what it is…",
+    problem: "Most first-time buyers do due diligence wrong. They look at the financials and miss the thing that will destroy the business after they buy it. Here's what to look for instead…",
+    authority: "After 10 acquisitions, here's my complete due diligence checklist — the one I wish I had on my first deal…",
+    transformation: "I almost bought a business that would have bankrupted me. One due diligence question saved me. Here's what I asked…",
+    pov: "You're 30 days into due diligence. The numbers look great. The seller seems honest. But something feels off. Here's the one thing you might be missing…",
+    number: "10 due diligence questions you must ask before buying any business — and the answers that should make you walk away immediately…"
+  },
+  boring: {
+    curiosity: "The most boring business I've ever seen was also the most profitable. Here's why 'boring' is the most underrated word in business acquisition…",
+    problem: "Everyone wants to buy a tech startup or a trendy brand. Meanwhile, the boring businesses — laundromats, car washes, HVAC companies — are quietly making their owners rich. Here's why…",
+    authority: "I've bought boring businesses for 10 years. And I can tell you — boring businesses are the best businesses. Here's why…",
+    transformation: "I bought a 'boring' business that nobody wanted. It changed my financial life. Here's the story…",
+    pov: "Imagine owning a laundromat. It's not glamorous. It's not Instagram-worthy. But it generates $15K a month in passive cash flow. That's the power of a boring business…",
+    number: "5 'boring' businesses that baby boomers are selling right now — and why they're some of the best acquisition opportunities on the market…"
+  },
+  seller: {
+    curiosity: "The seller of the business I was buying offered to finance the deal himself. I almost said no. Here's why that would have been the biggest mistake of my life…",
+    problem: "You think you need a bank loan to buy a business. You don't. Here's how seller financing works — and why it's often better for both the buyer and the seller…",
+    authority: "I've used seller financing on multiple deals. Here's the honest truth about how to negotiate it — and the terms you should never accept…",
+    transformation: "I went from 'I can't afford to buy a business' to owning one with $0 down — using seller financing. Here's exactly how the deal was structured…",
+    pov: "POV: The seller just offered to finance 80% of the purchase price himself. You're not sure if it's a gift or a trap. Here's how to tell the difference…",
+    number: "3 seller financing structures I've used to buy businesses with little to no money down — and which one works best for first-time buyers…"
+  },
+  freedom: {
+    curiosity: "I calculated the exact number of businesses I needed to own to never work for someone else again. The answer surprised me. Here's what I found…",
+    problem: "You've been told that financial freedom comes from investing in stocks or building a startup. Here's why buying an existing business is a faster, lower-risk path to the same destination…",
+    authority: "I've built financial freedom through business acquisition — not the stock market, not crypto, not real estate. Here's why I chose this path and why I'd choose it again…",
+    transformation: "3 years ago I was working a job I hated. Today I own businesses that generate income whether I show up or not. Here's the acquisition path that got me there…",
+    pov: "Imagine waking up on a Monday and choosing whether or not to work — because your businesses run without you. That's not a fantasy. That's what buying the right business can do for you…",
+    number: "5 reasons why buying a business is a faster path to financial freedom than starting one from scratch — backed by real numbers…"
+  },
+  failure: {
+    curiosity: "My worst business acquisition cost me $200,000 and 18 months of my life. Here's what I learned — and why I'd do it again…",
+    problem: "Nobody talks about the deals that go wrong. Here's my most painful acquisition failure — and the 3 lessons that made every deal after it better…",
+    authority: "I've failed publicly in business. I've lost money. I've made mistakes. And I'm going to tell you about all of them — because that's where the real lessons are…",
+    transformation: "I hit rock bottom on a business deal. Lost everything I'd put in. Here's how I rebuilt — and why that failure was the best thing that ever happened to me…",
+    pov: "You're 6 months into owning a business you bought and it's not working. The revenue is down. The team is struggling. You're wondering if you made a mistake. Here's what I did in that exact situation…",
+    number: "3 business acquisitions that went wrong — and the specific mistakes I made on each one that you can avoid…"
+  }
+};
+
+function generateHook() {
+  const topic = document.getElementById('hookTopic').value;
+  const type = document.getElementById('hookType').value;
+  const output = document.getElementById('hookOutput');
+  const outputText = document.getElementById('hookOutputText');
+
+  if (!topic || !type) {
+    showToast('Please select both a topic and hook type!');
+    return;
+  }
+
+  const hook = hookData[topic] && hookData[topic][type];
+  if (hook) {
+    outputText.textContent = hook;
+    output.classList.add('visible');
+  }
+}
+
+function copyOutput() {
+  const text = document.getElementById('hookOutputText').textContent;
+  navigator.clipboard.writeText(text).then(() => {
+    const btn = document.querySelector('.hook-output-copy');
+    btn.textContent = '✓ Copied!';
+    showToast('Hook copied to clipboard!');
+    setTimeout(() => { btn.textContent = 'Copy'; }, 2000);
+  });
+}
+
+// ─── ACTIVE NAV LINK ON SCROLL ───
+const sections = document.querySelectorAll('section[id]');
+const navLinks = document.querySelectorAll('.nav-link');
+const quickNavItems = document.querySelectorAll('.quick-nav-item');
+
+window.addEventListener('scroll', () => {
+  let current = '';
+  sections.forEach(section => {
+    const sectionTop = section.offsetTop - 100;
+    if (window.scrollY >= sectionTop) {
+      current = section.getAttribute('id');
+    }
+  });
+
+  navLinks.forEach(link => {
+    link.classList.remove('active');
+    if (link.getAttribute('href') === '#' + current) {
+      link.classList.add('active');
+    }
+  });
+
+  quickNavItems.forEach(item => {
+    item.classList.remove('active');
+    if (item.getAttribute('href') === '#' + current) {
+      item.classList.add('active');
+    }
+  });
+});
+</script>
+</body>
+</html>
